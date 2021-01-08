@@ -12,12 +12,12 @@ Custom Linux shell prompt written in Python.
 -   Other options :
     -   Wrap `/home/<user>` in `~`
     -   Customizable segment number for long paths
+    -   Customizable segment name length
 
 -   Configuration set in separate config file
 
 ### Upcoming features
 
--   Customizable directory name length
 -   Display username is prompt
 
 ## Install
@@ -41,6 +41,7 @@ python3 prompt.py /path/to/settings/file.json
     -   `false` will set the 256-Colors encoding, which uses 8 bits to code the color. It allows a narrower range of colors but is supported by nearly every terminal.
 -   `wrapHome` : If true, wraps the user directory segment (`/home/<user>`) using a tilde (`~`)
 -   `segmentNumber` : Number of segment in the prompt. Can be used to avoid a long prompt when you deep dive in directories. Set to 0 if you want no limit.
+-   `segementLength` : Size of the segement name. Can be used to avoid long directory names in the prompt. Set to 0 if you want no limit.
 
 **For color gradient arrays:**
 All colors must be hexadecimal color codes. You can put as many colors as you want in the arrays. If the path is longer than the number of colors in the arrays, it will loop back to the first color.

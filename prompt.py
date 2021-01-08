@@ -76,6 +76,18 @@ if settings['segmentNumber'] > 0 and settings['segmentNumber'] < len(splittedPat
     i = len(splittedPath) - settings['segmentNumber']
     splittedPath = splittedPath[i:]
 
+# Limit the length of each segement to the given value
+if settings['segmentLength'] > 0:
+    truncatedNames = [] # Create new list to store truncated names
+    for elem in splittedPath:
+        # If the name is longer than wanted, truncate it
+        if len(elem) > settings['segmentLength']:
+            truncatedNames.append(elem[0:settings['segmentLength']])
+        # If the name is already small enough, just add it to the new list
+        else:
+            truncatedNames.append(elem)
+    splittedPath = truncatedNames
+
 # Init indices and prompt
 pathIndex, textColorIndex, backColorIndex = 0, 0, 0
 finalPrompt = ""
