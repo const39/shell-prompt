@@ -1,5 +1,5 @@
 from color import computeColor, TrueColorsEnabled
-from os import getcwd
+from os import getcwd, getenv
 from sys import argv
 import json
 
@@ -35,7 +35,7 @@ def buildName(name, textColorHex, backColorHex, delimBackColorHex):
         The string formatted with color codes.
     """
     delim = "" # Delimiter
-    # wrappingGroup = "\\[{}{}\\]"    # PS1
+    # wrappingGroup = "\\[{}{}\\]"    # ! final
     wrappingGroup = "{}{}"    # debug
 
     # Generate color codes
@@ -54,13 +54,22 @@ def buildName(name, textColorHex, backColorHex, delimBackColorHex):
     # Put groups together
     return dirColorStr + dirStr + delimColorStr + delim + resetColorStr
 
+# *** Main script *** #
+
 path = getcwd() # Get current working directory
 settings = parseSettings()  # Get settings from file
 
 TrueColorsEnabled = settings['truecolor']   # Set color encoding according to settings
 
+# Wrap home dir with '~' if the option is set
+if settings['wrapHome']:
+    homeDir = getenv('HOME')    # Get Home dir from OS
+    path = path.replace(homeDir, '~', 1)    # Replace '/home/<user>' with '~'
+
+elif path[0] == '/':
+    path = path[1:]  # Remove first '/' to avoid empty element in list
+
 splittedPath = path.split('/')  # Split path in list
-splittedPath.pop(0) # Remove blank element from list
 
 # Init indices and prompt
 pathIndex, textColorIndex, backColorIndex = 0, 0, 0
@@ -80,12 +89,13 @@ while pathIndex < len(splittedPath):
         # Otherwise, use the next color in the list
         else:
             index = backColorIndex + 1 
+        delimBackColorHex = settings['background'][index]
 
     # Append the new segment to the prompt
     finalPrompt += buildName(name=splittedPath[pathIndex],
                              textColorHex=settings['foreground'][textColorIndex],
                              backColorHex=settings['background'][backColorIndex],
-                             delimBackColorHex=settings['background'][index])
+                             delimBackColorHex=delimBackColorHex)
 
     # If we've reached the end of the foreground colors list, loop back to the start
     if textColorIndex + 1 >= len(settings['foreground']):
@@ -101,4 +111,5 @@ while pathIndex < len(splittedPath):
     backColorIndex += 1
 
 # Print the whole prompt
-print(finalPrompt, end="")
+# print(finalPrompt, end="")  # ! final
+print(finalPrompt)  # debug
