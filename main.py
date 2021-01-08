@@ -1,6 +1,18 @@
-# import color as c
 from color import computeColor, TrueColorsEnabled
 from os import getcwd
+from sys import argv
+import json
+
+def parseSettings():
+    filename = "settings.json"
+    if len(argv) > 1:
+        filename = argv[1]
+    file = open(filename, 'r')
+    try:
+        return json.load(file)
+    except json.JSONDecodeError:
+        print(filename, "is not a valid settings file in JSON format.")
+        exit(1)
 
 def buildName(name, textColorHex, backColorHex, nextBackColorHex):
     
@@ -22,9 +34,9 @@ def buildName(name, textColorHex, backColorHex, nextBackColorHex):
     return dirColorStr + dirStr + delimColorStr + delim + resetColorStr
 
 path = getcwd()
-textColors = ["#FFFFFF"]
-backColors = ["#b82929",  "b0004b", "97086a", "cf6e00",  "36e25c", "00b5b8","247ba5","48437a","#4c0031","#860136","#b82929"]
-TrueColorsEnabled = True
+settings = parseSettings()
+
+TrueColorsEnabled = settings['truecolor']
 
 splittedPath = path.split('/')
 splittedPath.pop(0)
@@ -36,15 +48,15 @@ while pathIndex < len(splittedPath):
     if pathIndex == len(splittedPath) - 1:
         nextBackColorHex = ""
     else:
-        nextBackColorIndex = 0 if len(backColors) == backColorIndex + 1 else backColorIndex + 1 
-        nextBackColorHex = backColors[nextBackColorIndex]
+        nextBackColorIndex = 0 if len(settings['background']) == backColorIndex + 1 else backColorIndex + 1 
+        nextBackColorHex = settings['background'][nextBackColorIndex]
 
-    finalPrompt += buildName(splittedPath[pathIndex], textColors[textColorIndex], backColors[backColorIndex], nextBackColorHex)
+    finalPrompt += buildName(splittedPath[pathIndex], settings['foreground'][textColorIndex], settings['background'][backColorIndex], nextBackColorHex)
 
-    if textColorIndex + 1 >= len(textColors):
+    if textColorIndex + 1 >= len(settings['foreground']):
         textColorIndex = -1
 
-    if backColorIndex + 1 >= len(backColors):
+    if backColorIndex + 1 >= len(settings['background']):
         backColorIndex = -1
 
     pathIndex += 1
