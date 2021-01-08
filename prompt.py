@@ -1,5 +1,7 @@
+#!/bin/env python3
 from color import computeColor, TrueColorsEnabled
 from os import getcwd, getenv
+from os.path import dirname, realpath
 from sys import argv
 from getpass import getuser
 from socket import gethostname
@@ -9,8 +11,8 @@ def parseSettings():
     """
     Parse the JSON settings file and return settings as a dictionary.
     """
-    # Default filename
-    filename = "settings.json"
+    # Search for default file in same directory as script
+    filename = dirname(realpath(__file__)) + "/settings.json"
     # If a settings file in given, use it
     if len(argv) > 1:
         filename = argv[1]
@@ -36,8 +38,7 @@ def buildName(name, delimiter, textColorHex, backColorHex, delimBackColorHex):
     Returns:
         The string formatted with color codes.
     """
-    # wrappingGroup = "\\[{}{}\\]"    # ! final
-    wrappingGroup = "{}{}"    # debug
+    wrappingGroup = "\\[{}{}\\]"
 
     # Generate color codes
     textColor = computeColor(textColorHex, False)
@@ -149,5 +150,4 @@ while pathIndex < len(splittedPath):
     backColorIndex += 1
 
 # Print the whole prompt
-# print(finalPrompt, end="")  # ! final
-print(finalPrompt)  # debug
+print(finalPrompt, end="")

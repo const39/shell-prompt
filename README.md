@@ -14,12 +14,19 @@ Custom Linux shell prompt written in Python.
     -   Customizable segment number for long paths
     -   Customizable segment name length
     -   Username and hostname display
-
 -   Configuration set in separate config file
 
 ## Install
 
-**TODO**
+- Clone this repository
+- Execute `install.sh` giving the path to the directory you want to install the scripts in:
+```
+./install.sh /path/to/install/directory
+```
+- Place this line at the bottom of your `.bashrc` file, replacing `path/to/` with the path you gave to `install.sh`:
+```
+PROMPT_COMMAND=". path/to/prompt.sh"
+```
 
 ## Configure
 
@@ -48,7 +55,12 @@ All colors must be hexadecimal color codes. You can put as many colors as you wa
 
 ## Disable / Uninstall
 
-**TODO**
+- Remove the following line from your `.bashrc` file to disable the custom prompt
+```
+PROMPT_COMMAND=". path/to/prompt.sh"
+```
+
+- To uninstall completely the prompt, do the last step and delete the whole directory `shell-prompt` which is in the directory you gave to the install script
 
 ## Licence
 
