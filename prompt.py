@@ -71,6 +71,11 @@ elif path[0] == '/':
 
 splittedPath = path.split('/')  # Split path in list
 
+# Limit the number of segments to the given value
+if settings['segmentNumber'] > 0 and settings['segmentNumber'] < len(splittedPath):
+    i = len(splittedPath) - settings['segmentNumber']
+    splittedPath = splittedPath[i:]
+
 # Init indices and prompt
 pathIndex, textColorIndex, backColorIndex = 0, 0, 0
 finalPrompt = ""

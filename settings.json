@@ -1,6 +1,7 @@
 {
     "truecolor": true,
     "wrapHome": true,
+    "segmentNumber": 0,
     "background": [
         "#b82929",
         "#b0004b",
