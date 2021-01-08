@@ -13,6 +13,7 @@ Custom Linux shell prompt written in Python.
     -   Wrap `/home/<user>` in `~`
     -   Customizable segment number for long paths
     -   Customizable segment name length
+    -   Username and hostname display
 
 -   Configuration set in separate config file
 
