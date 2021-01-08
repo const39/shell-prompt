@@ -16,10 +16,6 @@ Custom Linux shell prompt written in Python.
 
 -   Configuration set in separate config file
 
-### Upcoming features
-
--   Display username is prompt
-
 ## Install
 
 **TODO**
@@ -41,7 +37,10 @@ python3 prompt.py /path/to/settings/file.json
     -   `false` will set the 256-Colors encoding, which uses 8 bits to code the color. It allows a narrower range of colors but is supported by nearly every terminal.
 -   `wrapHome` : If true, wraps the user directory segment (`/home/<user>`) using a tilde (`~`)
 -   `segmentNumber` : Number of segment in the prompt. Can be used to avoid a long prompt when you deep dive in directories. Set to 0 if you want no limit.
--   `segementLength` : Size of the segement name. Can be used to avoid long directory names in the prompt. Set to 0 if you want no limit.
+-   `segementLength` : Size of the segment name. Can be used to avoid long directory names in the prompt. Set to 0 if you want no limit.
+-   `showUsername` : If true, the first segment contains the username 
+-   `showHostname` : If true, the first segment contains the hostname along with the username. If `showUsername` is not set, this option is inactive. 
+-   `usernameDelimiter` : The character used to separate the username and the hostname. Only active if both `showUsername` and `showHostname` are set.
 
 **For color gradient arrays:**
 All colors must be hexadecimal color codes. You can put as many colors as you want in the arrays. If the path is longer than the number of colors in the arrays, it will loop back to the first color.

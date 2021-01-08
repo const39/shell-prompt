@@ -1,6 +1,8 @@
 from color import computeColor, TrueColorsEnabled
 from os import getcwd, getenv
 from sys import argv
+from getpass import getuser
+from socket import gethostname
 import json
 
 def parseSettings():
@@ -21,7 +23,7 @@ def parseSettings():
         print(filename, "is not a valid settings file in JSON format.")
         exit(1)
 
-def buildName(name, textColorHex, backColorHex, delimBackColorHex):
+def buildName(name, delimiter, textColorHex, backColorHex, delimBackColorHex):
     """
     Build a string segment terminated by a delimiter.
     
@@ -34,7 +36,6 @@ def buildName(name, textColorHex, backColorHex, delimBackColorHex):
     Returns:
         The string formatted with color codes.
     """
-    delim = "" # Delimiter
     # wrappingGroup = "\\[{}{}\\]"    # ! final
     wrappingGroup = "{}{}"    # debug
 
@@ -52,7 +53,7 @@ def buildName(name, textColorHex, backColorHex, delimBackColorHex):
     resetColorStr = wrappingGroup.format(colorOff, colorOff)
 
     # Put groups together
-    return dirColorStr + dirStr + delimColorStr + delim + resetColorStr
+    return dirColorStr + dirStr + delimColorStr + delimiter + resetColorStr
 
 # *** Main script *** #
 
@@ -88,6 +89,18 @@ if settings['segmentLength'] > 0:
             truncatedNames.append(elem)
     splittedPath = truncatedNames
 
+# Show username in prompt if option set
+if settings['showUsername']:
+
+    # Show hostname along username if option set
+    if settings['showHostname'] and settings['usernameDelimiter']:
+        txt = "{} {} {}".format(getuser(), settings['usernameDelimiter'], gethostname())
+    # Otherwise show only username
+    else:
+        txt = getuser()
+    # Insert new segement in list
+    splittedPath.insert(0, txt)
+
 # Init indices and prompt
 pathIndex, textColorIndex, backColorIndex = 0, 0, 0
 finalPrompt = ""
@@ -108,8 +121,16 @@ while pathIndex < len(splittedPath):
             index = backColorIndex + 1 
         delimBackColorHex = settings['background'][index]
 
+    # For first segment if it's the username, empty delimiter
+    if settings['showUsername'] and pathIndex == 0:
+        delim = ""
+    # For other segments, set other delimiter
+    else:
+        delim = ""
+
     # Append the new segment to the prompt
     finalPrompt += buildName(name=splittedPath[pathIndex],
+                             delimiter=delim,
                              textColorHex=settings['foreground'][textColorIndex],
                              backColorHex=settings['background'][backColorIndex],
                              delimBackColorHex=delimBackColorHex)

@@ -3,6 +3,9 @@
     "wrapHome": true,
     "segmentNumber": 0,
     "segmentLength": 0,
+    "showUsername": true,
+    "showHostname": false,
+    "usernameDelimiter": "●",
     "background": [
         "#b82929",
         "#b0004b",
