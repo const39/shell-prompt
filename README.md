@@ -23,14 +23,18 @@ Custom Linux shell prompt written in Python.
 ```
 ./install.sh /path/to/install/directory
 ```
-- Place this line at the bottom of your `.bashrc` file, replacing `path/to/` with the path you gave to `install.sh`:
+- Place these lines at the bottom of your `.bashrc` file, replacing `<pathToScript>` with the path you gave to `install.sh` and `[pathToSettings]` with the path to your settings file (see [Configure](#Configure)):
 ```
-PROMPT_COMMAND=". path/to/prompt.sh"
+setPS1() {
+    PS1="$(python3 <installPath>/shell-prompt/prompt.py [pathToSettings])"
+}
+
+PROMPT_COMMAND="setPS1"
 ```
 
 ## Configure
 
-Customisation is done in a JSON file. By default, the script will look for a file called `settings.json` but you can specify it manually in the command arguments, like that:
+Customization is done in a JSON file. By default, the script will look for a file called `settings.json` but you can specify it manually in the command arguments, like that:
 
 ```
 python3 prompt.py /path/to/settings/file.json
@@ -57,10 +61,14 @@ All colors must be hexadecimal color codes. You can put as many colors as you wa
 
 - Remove the following line from your `.bashrc` file to disable the custom prompt
 ```
-PROMPT_COMMAND=". path/to/prompt.sh"
+setPS1() {
+    PS1="$(python3 <installPath>/shell-prompt/prompt.py [pathToSettings])"
+}
+
+PROMPT_COMMAND="setPS1"
 ```
 
-- To uninstall completely the prompt, do the last step and delete the whole directory `shell-prompt` which is in the directory you gave to the install script
+- To uninstall completely the prompt, empty your `.bashrc` from the lines above and also delete the whole `shell-prompt` directory which is in the directory you gave to the install script.
 
 ## Licence
 

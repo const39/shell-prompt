@@ -29,7 +29,4 @@ cp prompt.py $INSTALL_DIR
 echo "Copying settings file sample..."
 cp settings.json $INSTALL_DIR
 
-echo "Creating launch script..."
-echo "export PS1=\`python3 ${INSTALL_DIR}prompt.py\`" > ${INSTALL_DIR}prompt.sh
-
 echo "Done."
